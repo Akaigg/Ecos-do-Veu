@@ -145,6 +145,7 @@ export interface CombatContext {
   mode: 'solo' | 'ao_vivo' | 'assincrono';
   canFlee: boolean;
   flags: string[];
+  deadlineHours?: number;
 }
 
 export interface CombatState {
