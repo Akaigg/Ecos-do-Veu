@@ -182,3 +182,23 @@ export function sellUnique(g: Game, c: Character, rowId: number) {
 }
 
 export { weaponModelById, computeEquipStats, maxDurabilityFor };
+
+/** Aplica um óleo na arma principal (vale por alguns combates). */
+export function applyOil(g: Game, c: Character, oilKey: string) {
+  return g.db.tx(() => {
+    const def = itemById.get(oilKey);
+    if (!def?.use || def.use.t !== 'oleo') fail('Isso não é um óleo de arma.');
+    const w = g.db.get<{ id: number }>("SELECT id FROM items WHERE owner_kind='char' AND owner_id=? AND slot='arma'", c.id) ?? fail('Equipe uma arma primeiro.');
+    removeItem(g, charOwner(c.id), oilKey, 1);
+    const it = getUnique(g, w!.id)!;
+    const u = def!.use as { elem: EquipData['oil'] extends infer O ? O extends { elem: infer E } ? E : never : never; bonus: number; fights: number; status?: string };
+    it.equip.oil = { elem: u.elem, bonus: u.bonus, fights: u.fights, status: u.status };
+    updateUnique(g, w!.id, it.equip);
+    return it.equip;
+  });
+}
+
+export function uniqueItems(g: Game, c: Character): { id: number; data: EquipData; slot: string | null; bound: number }[] {
+  return g.db.all<ItemRow>("SELECT * FROM items WHERE owner_kind='char' AND owner_id=? AND data IS NOT NULL ORDER BY slot IS NULL, id DESC", c.id)
+    .map((r) => ({ id: r.id, data: JSON.parse(r.data!) as EquipData, slot: r.slot, bound: r.bound }));
+}

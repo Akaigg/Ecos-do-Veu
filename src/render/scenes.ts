@@ -240,3 +240,19 @@ export function guildHall(name: string, tag: string, upgrades: Record<string, nu
   void guildUpgradeById;
   return c.scaled(3);
 }
+
+// ===================================================================== bestiário (grade de sprites 32×32)
+
+export function bestiaryGrid(ids: string[], seen: Set<string>, cols = 10): Canvas {
+  const cell = 34;
+  const rows = Math.max(1, Math.ceil(ids.length / cols));
+  const c = new Canvas(cols * cell + 2, rows * cell + 2, BG);
+  ids.forEach((id, i) => {
+    const x = 1 + (i % cols) * cell, y = 1 + Math.floor(i / cols) * cell;
+    c.rect(x, y, cell - 1, cell - 1, PANEL);
+    const s = monsterSprite(id);
+    if (seen.has(id)) c.blit(s, x + 1, y + 1);
+    else for (let j = 0; j < 32; j++) for (let k = 0; k < 32; k++) if (s.get(k, j)[3] > 0) c.set(x + 1 + k, y + 1 + j, hex('#3a3046'));
+  });
+  return c;
+}
