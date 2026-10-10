@@ -52,7 +52,9 @@ Convide o bot com os escopos `bot` e `applications.commands` e as permissões *V
 
 ```
 https://discord.com/oauth2/authorize?client_id=SEU_CLIENT_ID&scope=bot+applications.commands&permissions=309237763072
-``` Nenhuma intent privilegiada é necessária.
+```
+
+Nenhuma intent privilegiada é necessária.
 
 ```bash
 npm run deploy-commands          # registra os comandos de barra (use --dry-run para só validar)
