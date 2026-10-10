@@ -154,6 +154,7 @@ export function buildPetMinion(owner: Fighter, id: string): Fighter | null {
   base.name = owner.pet.name;
   base.ref = `pet:${owner.pet.id}`;
   base.kind = 'pet';
+  base.tags = [...base.tags, `especie:${owner.pet.species}`];
   base.maxHp = base.hp = Math.round(base.hp * petBoost);
   base.atk = Math.round(base.atk * petBoost);
   return base;
