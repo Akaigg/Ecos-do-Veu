@@ -15,6 +15,7 @@
     "deploy-commands": "tsx scripts/deploy-commands.ts",
     "sprites": "tsx scripts/export-sprites.ts",
     "validate-data": "tsx scripts/validate-data.ts",
+    "balance": "tsx scripts/balance.ts",
     "test": "node --import tsx --test --test-reporter=spec \"test/**/*.test.ts\""
   },
   "dependencies": {

@@ -171,7 +171,12 @@ export function submitAction(st: CombatState, fighterId: string, action: PlayerA
   const f = byId(st, fighterId);
   if (!f || f.kind !== 'jogador') return 'Combatente inválido.';
   if (!f.alive) return 'Você está fora de combate.';
+  // Um movimento junto da ação acontece antes dela: valida já na linha de destino.
+  const moving = 'move' in action && !!action.move && !hasStatus(f, 'enraizado');
+  const line = f.line;
+  if (moving) f.line = line === 'frente' ? 'tras' : 'frente';
   const err = validateAction(st, f, action);
+  f.line = line;
   if (err) return err;
   st.pending[fighterId] = action;
   return null;

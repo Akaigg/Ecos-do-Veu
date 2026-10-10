@@ -64,13 +64,21 @@ export function skillPanelText(st: CombatState, f: Fighter): string {
   }).join('\n');
 }
 
+/** Usabilidade considerando o movimento marcado para acompanhar a ação (ele acontece antes). */
+function usableAfterMove(st: CombatState, f: Fighter, s: Fighter['skills'][number], moving: boolean): string | null {
+  if (!moving) return skillUsable(st, f, s);
+  const line = f.line;
+  f.line = line === 'frente' ? 'tras' : 'frente';
+  try { return skillUsable(st, f, s); } finally { f.line = line; }
+}
+
 /** Botões e menus de ação de um jogador: 6 habilidades em duas fileiras + ações universais + alvo + extras. */
 export function actionRows(st: CombatState, f: Fighter, combatId: string): ActionRowBuilder<ButtonBuilder | StringSelectMenuBuilder>[] {
   if (st.outcome || !f.alive) return [];
   const rows: ActionRowBuilder<ButtonBuilder | StringSelectMenuBuilder>[] = [];
   const btn = (s: (typeof f.skills)[number], i: number) => {
     const cd = f.cooldowns[s.id] ?? 0;
-    const blocked = !!skillUsable(st, f, s);
+    const blocked = !!usableAfterMove(st, f, s, moveChoice.has(tkey(combatId, Number(f.ref))));
     return new ButtonBuilder().setCustomId(`cb:sk:${combatId}:${i}`).setStyle(s.culminant ? ButtonStyle.Success : ButtonStyle.Primary)
       .setLabel(clip(`${s.name}${cd ? ` ⏳${cd}` : ` (${s.cost})`}`, 80)).setDisabled(blocked);
   };
