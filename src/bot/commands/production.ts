@@ -429,7 +429,7 @@ command({
     const c = requireCharacter(g, i.user.id);
     const sub = i.options.getSubcommand();
     if (sub === 'ver') {
-      const cat = shopCatalog(c);
+      const cat = shopCatalog(c, g.now());
       const entries = [...cat.items.map((e) => ({ icon: iconFor(itemById.get(e.item)!.icon, itemById.get(e.item)!.color), badge: String(e.price) })),
         ...cat.tools.map((t) => ({ icon: iconFor(TOOL_MODELS.find((m) => m.id === t.tool)!.icon, itemById.get(t.material)!.color), badge: String(t.price) }))];
       const img = image(catalogImage(entries), 'loja');
@@ -448,7 +448,7 @@ command({
     const q = i.options.getFocused().toLowerCase();
     const sub = i.options.getSubcommand();
     if (sub === 'comprar') {
-      const cat = shopCatalog(c);
+      const cat = shopCatalog(c, g.now());
       return i.respond([...cat.items.map((e) => ({ name: `${itemById.get(e.item)!.name} — ${e.price}`, value: e.item })), ...SHOP_TOOLS.map((t) => ({ name: `${TOOL_MODELS.find((m) => m.id === t.tool)!.name} — ${t.price}`, value: t.tool }))]
         .filter((x) => x.name.toLowerCase().includes(q)).slice(0, 25));
     }

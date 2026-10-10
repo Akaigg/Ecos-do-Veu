@@ -14,6 +14,7 @@ import {
 import { knownModifiers } from './talents.ts';
 import { contractProgress } from './contracts.ts';
 import { shareDiscovery } from './guild.ts';
+import { activeEvent } from '../data/events.ts';
 import { activePet, tamePet } from './pets.ts';
 
 const escrow = (charId: number): Owner => ({ kind: 'escrow', id: charId });
@@ -157,6 +158,7 @@ function settleCombat(g: Game, st: CombatState, row: CombatRow): CombatSettlemen
   const r = new Rng(st.seed ^ 0x5bd1e995);
   const out: CombatSettlement = { outcome: st.outcome, members: [] };
   const killedIds = st.kills.map((k) => k.monsterId);
+  const dropBonus = 1 + (activeEvent(st.context.region, g.now())?.dropBonus ?? 0);
   const totalXp = st.fighters.filter((f) => f.kind === 'monstro' && !f.alive && killedIds.includes(f.monsterId!) && !st.tamed.some((t) => t.monsterId === f.monsterId && false))
     .reduce((s, f) => s + (f.xp ?? 0), 0);
   for (const h of heroes) {
@@ -176,7 +178,7 @@ function settleCombat(g: Game, st: CombatState, row: CombatRow): CombatSettlemen
         const def = monsterById.get(k.monsterId);
         if (!def) continue;
         for (const d of def.drops) {
-          if (!r.chance(d.chance)) continue;
+          if (!r.chance(Math.min(1, d.chance * dropBonus))) continue;
           const q = r.int(d.min, d.max);
           loot.items[d.item] = (loot.items[d.item] ?? 0) + q;
         }

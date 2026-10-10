@@ -13,6 +13,7 @@ import {
 } from './character.ts';
 import { tools } from './gear.ts';
 import { contractProgress } from './contracts.ts';
+import { activeEvent } from '../data/events.ts';
 import { addGuildWork } from './guild.ts';
 
 export const DEFAULT_RULES: WorkRules = { stopBeforeBreak: true, useReserves: true, returnAt: 0.95, ignoreCommon: false, stopOnDanger: true };
@@ -91,7 +92,8 @@ export function planWork(g: Game, c: Character, locationId: string, hours: numbe
     tools: workTools, supplies: { racao: reserve.racao, agua: reserve.agua, celula: reserve.celula }, perHour,
     capacityKg: derived.carry,
     yieldBonus: (meal?.workYield ?? 0) + (race.trait.t === 'plantas_agua' && loc!.profession === 'herbalismo' ? race.trait.herbYield : 0)
-      + (hasUnlock(g, c.id, 'bonus_local', loc!.id) ? 0.2 : 0) + (sense === 'olfato' && loc!.profession === 'caca' ? 0.1 : 0),
+      + (hasUnlock(g, c.id, 'bonus_local', loc!.id) ? 0.2 : 0) + (sense === 'olfato' && loc!.profession === 'caca' ? 0.1 : 0)
+      + (activeEvent(loc!.region, g.now())?.workYield?.profession === loc!.profession ? activeEvent(loc!.region, g.now())!.workYield!.pct : 0),
     wearReduction: race.trait.t === 'avaliar_jazidas' ? race.trait.toolWear : 0,
     fatigueStartHours: fatigueStart, fatigueRate: race.trait.t === 'exaustao' ? 0.06 : 0.08,
     hazard, hazardCountered: countered,

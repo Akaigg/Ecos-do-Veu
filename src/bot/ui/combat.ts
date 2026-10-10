@@ -12,6 +12,8 @@ import { bar, clip, COLORS, image } from './format.ts';
 
 /** Alvo escolhido por jogador em cada combate (memória; o padrão é automático). */
 export const targetChoice = new Map<string, string>();
+/** Movimento entre linhas marcado para acompanhar a próxima ação (uma ação principal + um movimento por rodada). */
+export const moveChoice = new Set<string>();
 export const tkey = (combatId: string, charId: number) => `${combatId}:${charId}`;
 
 function statusLine(f: Fighter): string {
@@ -78,7 +80,8 @@ export function actionRows(st: CombatState, f: Fighter, combatId: string): Actio
   rows.push(new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder().setCustomId(`cb:atk:${combatId}`).setStyle(ButtonStyle.Secondary).setLabel('Atacar').setEmoji('🗡️'),
     new ButtonBuilder().setCustomId(`cb:def:${combatId}`).setStyle(ButtonStyle.Secondary).setLabel('Defender').setEmoji('🛡️'),
-    new ButtonBuilder().setCustomId(`cb:mov:${combatId}`).setStyle(ButtonStyle.Secondary).setLabel(f.line === 'frente' ? 'Ir p/ retaguarda' : 'Ir p/ frente').setEmoji('↔️'),
+    new ButtonBuilder().setCustomId(`cb:mov:${combatId}`).setStyle(moveChoice.has(tkey(combatId, Number(f.ref))) ? ButtonStyle.Success : ButtonStyle.Secondary)
+      .setLabel(`${f.line === 'frente' ? 'Recuar' : 'Avançar'}${moveChoice.has(tkey(combatId, Number(f.ref))) ? ' ✓ (com a próxima ação)' : ' + ação'}`).setEmoji('↔️'),
   ));
   const charId = Number(f.ref);
   const chosen = targetChoice.get(tkey(combatId, charId));

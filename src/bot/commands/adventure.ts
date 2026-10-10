@@ -13,7 +13,7 @@ import {
 import { createParty, inviteToParty, joinParty, leaveParty, partyOf, partyInvites, setPartyMode, setPosture } from '../../services/party.ts';
 import type { PlayerAction } from '../../game/combat/state.ts';
 import { command, component, ephemeral, type Ctx, type ComponentInteraction } from '../registry.ts';
-import { actionRows, combatEmbed, skillPanelText, targetChoice, tkey } from '../ui/combat.ts';
+import { actionRows, combatEmbed, moveChoice, skillPanelText, targetChoice, tkey } from '../ui/combat.ts';
 import { campaignPanel, combatPanel, explorePanel, type Panel } from '../ui/panels.ts';
 import { COLORS, itemList } from '../ui/format.ts';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
@@ -115,8 +115,19 @@ component('cb', async (ctx, i, [action, combatId, arg]) => {
     targetChoice.set(tkey(combatId, c.id), i.values[0]);
     return i.deferUpdate();
   }
+  const key = tkey(combatId, c.id);
+  if (action === 'mov') {
+    // Alterna o movimento; ele acompanha a próxima ação principal.
+    if (moveChoice.has(key)) moveChoice.delete(key); else moveChoice.add(key);
+    const me = loaded!.state.fighters.find((f) => f.id === `p${c.id}`);
+    if (!me) fail('Você não participa deste combate.');
+    if (!party) return i.update({ ...combatPanel(g, combatId, c), attachments: [] });
+    return i.update({ embeds: [new EmbedBuilder().setColor(COLORS.main).setTitle(`Suas ações — ${me!.name}`).setDescription(skillPanelText(loaded!.state, me!))], components: actionRows(loaded!.state, me!, combatId) });
+  }
   const value = i.isStringSelectMenu() ? i.values[0] : undefined;
   const pa = buildAction(g, c, combatId, action, arg, value);
+  if (moveChoice.has(key) && pa.kind !== 'mover' && pa.kind !== 'fugir') { (pa as { move?: boolean }).move = true; }
+  moveChoice.delete(key);
   const res = act(g, c, combatId, pa);
   if (!party) return i.update({ ...afterAct(g, c, res), attachments: [] });
   // Grupo: atualiza o painel compartilhado; o painel pessoal mostra a confirmação.
@@ -248,8 +259,17 @@ command({
     }
     const c = requireCharacter(g, i.user.id);
     if (sub === 'iniciar') {
-      const run = startCampaign(g, c, i.options.getString('campanha', true), i.channelId);
-      return i.reply(campaignPanel(g, run, [`📜 ${campaignById.get(run.campaignId)!.desc}`]));
+      const def = campaignById.get(i.options.getString('campanha', true)) ?? fail('Campanha desconhecida.');
+      // Cada campanha ganha um tópico próprio quando o canal permite.
+      let thread: { id: string; send: (p: unknown) => Promise<unknown> } | undefined;
+      try {
+        const ch = i.channel as unknown as { threads?: { create: (o: { name: string; autoArchiveDuration: number }) => Promise<{ id: string; send: (p: unknown) => Promise<unknown> }> } } | null;
+        if (ch?.threads) thread = await ch.threads.create({ name: `📜 ${def!.name} — ${c.name}`.slice(0, 90), autoArchiveDuration: 10080 });
+      } catch { thread = undefined; }
+      const run = startCampaign(g, c, def!.id, thread?.id ?? i.channelId);
+      const panel = campaignPanel(g, run, [`📜 ${def!.desc}`]);
+      if (thread) { await thread.send(panel); return i.reply(`📜 **${def!.name}** começou em <#${thread.id}>.`); }
+      return i.reply(panel);
     }
     if (sub === 'fragmentos') {
       const fr = fragments(g, c.id);

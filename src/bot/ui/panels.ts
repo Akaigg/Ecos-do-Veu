@@ -2,6 +2,7 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, type Attach
 import { regionById, WEATHER_LABEL } from '../../data/regions.ts';
 import { EVENT_INFO } from '../../data/exploration.ts';
 import { campaignById } from '../../data/campaigns.ts';
+import { activeEvent } from '../../data/events.ts';
 import type { Game } from '../../services/core.ts';
 import { getCharacter, type Character } from '../../services/character.ts';
 import { currentExploration } from '../../services/exploration.ts';
@@ -38,6 +39,7 @@ export function explorePanel(g: Game, c: Character, extra: string[] = []): Panel
     `**${reg.name}** • passo ${st.step + 1}/${st.maxSteps} • ${WEATHER_LABEL[st.weather] ?? st.weather}`,
     `❤️ \`${bar(st.hpPct)}\` ${Math.round(st.hpPct * 100)}%`,
     `🎒 Mochila (não guardada): ${itemList(st.backpack, 'vazia')}${st.gold ? ` • ${gold(st.gold)}` : ''}`,
+    ...(activeEvent(st.region, g.now()) ? [`✨ Evento da semana: **${activeEvent(st.region, g.now())!.name}** — ${activeEvent(st.region, g.now())!.desc}`] : []),
     '',
     ...extra,
     ...(extra.length ? [''] : []),

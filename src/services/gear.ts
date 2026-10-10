@@ -2,6 +2,7 @@ import { RARITY_INFO, TIER_REQ_LEVEL, VISUALS, weaponModelById, toolModelById, m
 import { itemById } from '../data/items.ts';
 import { ECONOMY, SELL_RATE, SHOP_STOCK, SHOP_TOOLS } from '../data/social.ts';
 import { REGIONS } from '../data/regions.ts';
+import { activeEvent } from '../data/events.ts';
 import { computeEquipStats, isTwoHanded, maxDurabilityFor, slotForEquip, type EquipData } from '../game/equipment.ts';
 import { addItem, addUnique, charOwner, fail, getUnique, ledger, removeItem, updateUnique, type Game, type ItemRow } from './core.ts';
 import { activeProgress, assertSafe, changeGold, hasUnlock, type Character } from './character.ts';
@@ -126,18 +127,19 @@ export function tools(g: Game, c: Character, profession?: string): { id: number;
 
 // ===================================================================== loja da Companhia (catálogo)
 
-export function shopCatalog(c: Character) {
+export function shopCatalog(c: Character, now = Date.now()) {
   const idx = REGIONS.findIndex((r) => r.id === c.region);
+  const discount = 1 - (activeEvent(c.region, now)?.shopDiscount ?? 0);
   return {
-    items: SHOP_STOCK.filter((e) => (e.minRegionIndex ?? 0) <= idx),
-    tools: SHOP_TOOLS,
+    items: SHOP_STOCK.filter((e) => (e.minRegionIndex ?? 0) <= idx).map((e) => ({ ...e, price: Math.max(1, Math.round(e.price * discount)) })),
+    tools: SHOP_TOOLS.map((t) => ({ ...t, price: Math.max(1, Math.round(t.price * discount)) })),
   };
 }
 
 export function buy(g: Game, c: Character, key: string, qty: number) {
   return g.db.tx(() => {
     const q = Math.max(1, Math.min(99, Math.floor(qty)));
-    const cat = shopCatalog(c);
+    const cat = shopCatalog(c, g.now());
     const entry = cat.items.find((e) => e.item === key);
     if (entry) {
       changeGold(g, c.id, -entry.price * q, 'loja', key);

@@ -6,6 +6,7 @@ import { PET_AFFINITIES, PET_MISSION_DURATIONS, petTraitById, petXpForLevel } fr
 import { GUILD_RANKS, GUILD_UPGRADES, guildUpgradeById, type GuildRank } from '../../data/social.ts';
 import { ARMOR_MODELS, CLOAK_MODELS, JEWELRY_MODELS, WEAPON_MODELS, REINFORCEMENTS, LININGS, FINISHES, materialByItem } from '../../data/equipment.ts';
 import { GLYPHS } from '../../render/sprites/icons.ts';
+import { activeEvent } from '../../data/events.ts';
 import { fail, type Game } from '../../services/core.ts';
 import { getCharacterByUser, requireCharacter, travel, type Character } from '../../services/character.ts';
 import { knowsWeakness, weatherOf } from '../../services/exploration.ts';
@@ -46,7 +47,8 @@ command({
     const map = image(worldMap(c.region, c.visited), 'mapa');
     return i.reply({ embeds: [new EmbedBuilder().setColor(COLORS.info).setTitle('🗺️ Mapa do Véu').setImage(map.url).setDescription(
       `Você está em **${reg.name}** (${reg.hub}). Clima agora: ${weatherOf(reg, g.now())}.\n` +
-      REGIONS.map((r) => `${c.visited.includes(r.id) ? '🟢' : '⚫'} ${r.name} — níveis ${r.levels[0]}–${r.levels[1]}`).join('\n'))], files: [map.file] });
+      REGIONS.map((r) => { const ev = activeEvent(r.id, g.now()); return `${c.visited.includes(r.id) ? '🟢' : '⚫'} ${r.name} — níveis ${r.levels[0]}–${r.levels[1]}${ev ? ` • ✨ ${ev.name}` : ''}`; }).join('\n') +
+      `${activeEvent(c.region, g.now()) ? `\n\n✨ **Evento aqui:** ${activeEvent(c.region, g.now())!.name} — ${activeEvent(c.region, g.now())!.desc}` : ''}`)], files: [map.file] });
   },
   async autocomplete(ctx, i) {
     const q = i.options.getFocused().toLowerCase();

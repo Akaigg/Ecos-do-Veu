@@ -12,6 +12,7 @@ import {
 import { startCombat, deliverLoot, type CombatSettlement } from './combat.ts';
 import { contractProgress } from './contracts.ts';
 import { libraryKnows } from './guild.ts';
+import { activeEvent } from '../data/events.ts';
 
 export interface PathOption { name: string; kind: ExploreEventKind; hint: string; revealed: boolean }
 export interface ExploreState {
@@ -60,7 +61,9 @@ function rollPaths(g: Game, c: Character, st: ExploreState, r: Rng): PathOption[
   const { derived } = snapshot(g, c);
   const names = r.shuffle([...(PATH_NAMES[reg.id] ?? ['Trilha'])]);
   const n = r.chance(0.5) ? 3 : 2;
-  const kinds = Object.entries(EVENT_INFO).filter(([, v]) => v.weight > 0).map(([k, v]) => [k as ExploreEventKind, v.weight] as const);
+  const ev = activeEvent(reg.id, g.now());
+  const kinds = Object.entries(EVENT_INFO).filter(([, v]) => v.weight > 0).map(([k, v]) => [k as ExploreEventKind,
+    v.weight * (k === 'variante' ? ev?.variantWeight ?? 1 : 1) * (k === 'rastro' || k === 'ruina' ? 1 + (ev?.discoveryBonus ?? 0) : 1)] as const);
   const out: PathOption[] = [];
   const lair = hasUnlock(g, c.id, 'covil', reg.id) && st.step >= 2 && !st.paths.some((p) => p.kind === 'covil');
   for (let i = 0; i < n; i++) {
