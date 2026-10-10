@@ -48,7 +48,11 @@ Preencha o `.env`:
 | `DATABASE_PATH` | Arquivo SQLite (padrão `./data/ecos.db`). |
 | `JOB_INTERVAL_SECONDS` | Intervalo do processador de tarefas (padrão 30). |
 
-Convide o bot com os escopos `bot` e `applications.commands` e as permissões *Enviar mensagens*, *Inserir links*, *Anexar arquivos*, *Criar tópicos públicos* e *Enviar mensagens em tópicos*. Nenhuma intent privilegiada é necessária.
+Convide o bot com os escopos `bot` e `applications.commands` e as permissões *Ver canais*, *Enviar mensagens*, *Inserir links*, *Anexar arquivos*, *Ler histórico de mensagens*, *Criar tópicos públicos* e *Enviar mensagens em tópicos* (inteiro de permissões `309237763072`):
+
+```
+https://discord.com/oauth2/authorize?client_id=SEU_CLIENT_ID&scope=bot+applications.commands&permissions=309237763072
+``` Nenhuma intent privilegiada é necessária.
 
 ```bash
 npm run deploy-commands          # registra os comandos de barra (use --dry-run para só validar)
