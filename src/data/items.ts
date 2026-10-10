@@ -193,6 +193,8 @@ add('solvente', 'Solvente Alquímico', 'reagente', 2, 'frasco', '#d0d0a0', { wei
 add('tinta-arcana', 'Tinta Arcana', 'reagente', 2, 'frasco', '#6040c0', { weight: 0.1, desc: 'Base para gravar runas.' });
 add('cera-selagem', 'Cera de Selagem', 'reagente', 1, 'resina', '#d0b060', { weight: 0.2 });
 
+add('farinha', 'Farinha', 'comida', 1, 'saco', '#e8e0c8', { weight: 0.5, value: 2, desc: 'Vendida nas cidades; base de pães e tortas.' });
+
 // Suprimentos (atividades)
 add('racao', 'Ração de Expedição', 'suprimento', 1, 'racao', '#b08a5a', { weight: 0.5, value: 2, use: { t: 'racao', hours: 1 } });
 add('agua', 'Cantil de Água', 'suprimento', 1, 'cantil', '#5a9ad0', { weight: 0.5, value: 1, use: { t: 'agua', hours: 1 } });
@@ -218,7 +220,7 @@ add('isca-veu', 'Isca do Véu', 'isca', 5, 'isca', '#c080f0', { weight: 0.2, use
 // Runas (Engenharia Rúnica) em três graus
 export const RUNE_TYPES: Record<string, { name: string; stat: string; per: number; color: string }> = {
   protecao: { name: 'Proteção', stat: 'armadura', per: 6, color: '#a0a0b0' },
-  vida: { name: 'Vida', stat: 'vida', per: 12, color: '#e04050' },
+  vida: { name: 'Vida', stat: 'vida_flat', per: 12, color: '#e04050' },
   foco: { name: 'Foco', stat: 'dano_magico', per: 3, color: '#5070e0' },
   furia: { name: 'Fúria', stat: 'critico', per: 2, color: '#e07030' },
   mobilidade: { name: 'Mobilidade', stat: 'esquiva', per: 2, color: '#60d0a0' },

@@ -81,10 +81,10 @@ export interface ArmorModel {
 
 /** Modelos de armadura: definem estrutura e limites. Valores são para o torso na faixa 1. */
 export const ARMOR_MODELS: ArmorModel[] = [
-  { id: 'acolchoado', name: 'Gibão Acolchoado', class: 'leve', families: ['tecido'], armor: 6, weight: 2, mobility: 0, capacity: 5, runeMax: 3, look: 'tunica', profession: 'alfaiataria' },
-  { id: 'vestes-runicas', name: 'Vestes Rúnicas', class: 'leve', families: ['tecido'], armor: 4, weight: 1.5, mobility: 0, capacity: 6, runeMax: 4, look: 'manto', profession: 'alfaiataria', bonus: { magic: 4 } },
-  { id: 'sobretudo', name: 'Sobretudo', class: 'leve', families: ['tecido', 'couro'], armor: 7, weight: 3, mobility: 0, capacity: 4, runeMax: 2, look: 'sobretudo', profession: 'alfaiataria' },
-  { id: 'couro', name: 'Armadura de Couro', class: 'leve', families: ['couro'], armor: 9, weight: 4, mobility: 0, capacity: 4, runeMax: 2, look: 'couro', profession: 'alfaiataria', bonus: { dodge: 2 } },
+  { id: 'acolchoado', name: 'Gibão Acolchoado', class: 'leve', families: ['tecido'], armor: 9, weight: 2, mobility: 0, capacity: 5, runeMax: 3, look: 'tunica', profession: 'alfaiataria' },
+  { id: 'vestes-runicas', name: 'Vestes Rúnicas', class: 'leve', families: ['tecido'], armor: 7, weight: 1.5, mobility: 0, capacity: 6, runeMax: 4, look: 'manto', profession: 'alfaiataria', bonus: { magic: 4 } },
+  { id: 'sobretudo', name: 'Sobretudo', class: 'leve', families: ['tecido', 'couro'], armor: 10, weight: 3, mobility: 0, capacity: 4, runeMax: 2, look: 'sobretudo', profession: 'alfaiataria' },
+  { id: 'couro', name: 'Armadura de Couro', class: 'leve', families: ['couro'], armor: 12, weight: 4, mobility: 0, capacity: 4, runeMax: 2, look: 'couro', profession: 'alfaiataria', bonus: { dodge: 2 } },
   { id: 'brigandina', name: 'Brigandina', class: 'media', families: ['metal'], armor: 13, weight: 7, mobility: 2, capacity: 4, runeMax: 2, look: 'brigandina', profession: 'ferraria' },
   { id: 'cota-malha', name: 'Cota de Malha', class: 'media', families: ['metal'], armor: 14, weight: 9, mobility: 3, capacity: 3, runeMax: 2, look: 'malha', profession: 'ferraria' },
   { id: 'escamas', name: 'Armadura de Escamas', class: 'media', families: ['metal', 'osso'], armor: 15, weight: 10, mobility: 3, capacity: 3, runeMax: 1, look: 'escamas', profession: 'ferraria', bonus: { resist: { fogo: 5, gelo: 5 } } },
@@ -183,7 +183,7 @@ export const RARITY_INFO: Record<Rarity, { label: string; capacity: number; stat
 
 /** Propriedades especiais sorteadas em itens raros e épicos. */
 export const SPECIAL_PROPS: { id: string; label: string; stat: string; value: number }[] = [
-  { id: 'robusto', label: '+4% de vida', stat: 'vida_pct', value: 4 },
+  { id: 'robusto', label: '+4% de vida', stat: 'vida', value: 4 },
   { id: 'agil', label: '+2% de esquiva', stat: 'esquiva', value: 2 },
   { id: 'atento', label: '+4 de iniciativa', stat: 'iniciativa', value: 4 },
   { id: 'afiado', label: '+3% de crítico', stat: 'critico', value: 3 },

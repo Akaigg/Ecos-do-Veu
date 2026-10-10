@@ -224,7 +224,7 @@ export const BARDO: ClassDef = {
   weapons: ['instrumento', 'adaga', 'espada', 'arco', 'varinha'],
   fundamento: skill('nota-dissonante', 'Nota Dissonante', 'Som cortante que enfraquece o alvo.', {
     cost: 10, cd: 0, target: 'inimigo', icon: 'nota', range: 'distancia',
-    effects: [dmg(7, { espirito: 0.4, intelecto: 0.4 }, 'arcano', { weapon: 0.5 }), st('enfraquecido', 1, { potency: 10 })],
+    effects: [dmg(11, { espirito: 0.8, intelecto: 0.5 }, 'arcano', { weapon: 0.6 }), st('enfraquecido', 1, { potency: 10 })],
   }),
   innate: passive('repertorio', 'Repertório', 'Escudos e curas que você aplica são 10% mais fortes.', [{ t: 'stat', stat: 'cura', value: 10 }], 'nota'),
   trees: [
@@ -261,7 +261,7 @@ export const BARDO: ClassDef = {
       id: 'arauto', name: 'Arauto', desc: 'Proclamações, comando e brados.',
       a1: skill('proclamacao', 'Proclamação Ofensiva', 'Aponta o alvo: Vulnerável e Marcado por 2 rodadas.', {
         cost: 20, cd: 2, target: 'inimigo', icon: 'bandeira', range: 'distancia',
-        effects: [st('vulneravel', 2, { potency: 15 }), st('marcado', 2, { potency: 10 })],
+        effects: [dmg(8, { espirito: 0.6, intelecto: 0.3 }, 'arcano'), st('vulneravel', 2, { potency: 15 }), st('marcado', 2, { potency: 10 })],
       }),
       f1: [
         mod('proclamacao-ampla', 'Proclamação Ampla', 'proclamacao', 'Afeta toda a linha do alvo.', { icon: 'bandeira', target: 'linha_inimiga', costDelta: 10 }),
@@ -280,7 +280,7 @@ export const BARDO: ClassDef = {
       ], 'bandeira'),
       a3: skill('grito-atordoante', 'Grito Atordoante', 'Interrompe e tem 50% de chance de atordoar.', {
         cost: 30, cd: 4, target: 'inimigo', icon: 'nota', range: 'distancia',
-        effects: [{ k: 'interromper' }, st('atordoado', 1, { chance: 0.5 }), dmg(6, { espirito: 0.5 }, 'arcano')],
+        effects: [{ k: 'interromper' }, st('atordoado', 1, { chance: 0.5 }), dmg(14, { espirito: 1.0, intelecto: 0.3 }, 'arcano')],
       }),
       m3: mod('eco-ensurdecedor', 'Eco Ensurdecedor', 'grito-atordoante', 'Silencia a linha do alvo.', { icon: 'nota', add: [st('silenciado', 1, { on: 'linha_alvo' })] }),
       c: skill('estandarte-arauto', 'Estandarte do Arauto', 'Por 4 rodadas: aliados +20% de dano e −15% de dano recebido.', {
@@ -300,16 +300,16 @@ export const BARDO: ClassDef = {
       ],
       a2: skill('confusao', 'Confusão', 'O alvo fica Confuso por 2 rodadas (pode atacar os próprios aliados).', {
         cost: 30, cd: 3, target: 'inimigo', icon: 'espiral', range: 'distancia',
-        effects: [st('confuso', 2)],
+        effects: [dmg(8, { intelecto: 0.6, espirito: 0.4 }, 'arcano'), st('confuso', 2)],
       }),
       f2: [
-        mod('confusao-massa', 'Confusão em Massa', 'confusao', 'Afeta toda a linha por 1 rodada.', { icon: 'espiral', target: 'linha_inimiga', patch: [{ index: 0, set: { dur: 1 } }], costDelta: 10 }),
+        mod('confusao-massa', 'Confusão em Massa', 'confusao', 'Afeta toda a linha por 1 rodada.', { icon: 'espiral', target: 'linha_inimiga', patch: [{ index: 1, set: { dur: 1 } }], costDelta: 10 }),
         mod('delirio', 'Delírio', 'confusao', 'Também causa dano arcano por rodada.', { icon: 'mascara', add: [st('decadencia', 2, { potency: 4, scale: { intelecto: 0.3 }, elem: 'arcano' })] }),
       ],
       p: passive('desvio-percepcao', 'Desvio da Percepção', 'Inimigos têm −10% de precisão contra você e sua linha.', [{ t: 'linha_precisao_inimiga', pct: 10 }], 'olho'),
       a3: skill('fantasma-aterrador', 'Fantasma Aterrador', 'A linha do alvo fica Enfraquecida e Lenta.', {
         cost: 30, cd: 4, target: 'linha_inimiga', icon: 'espirito', range: 'distancia',
-        effects: [st('enfraquecido', 2, { potency: 15 }), st('lento', 2)],
+        effects: [dmg(10, { espirito: 0.7, intelecto: 0.4 }, 'arcano'), st('enfraquecido', 2, { potency: 15 }), st('lento', 2)],
       }),
       m3: mod('pavor', 'Pavor', 'fantasma-aterrador', '25% de chance de atordoar.', { icon: 'caveira', add: [st('atordoado', 1, { chance: 0.25 })] }),
       c: skill('grande-ilusao', 'Grande Ilusão', 'Todos os inimigos ficam Confusos e Cegos por 2 rodadas.', {

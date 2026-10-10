@@ -97,7 +97,7 @@ function buildVariants(): MonsterDef[] {
       ...base,
       id: v.id, name: v.name, rank: 'variante', base: base.id, level, habit: v.habit,
       colors: v.colors ?? base.colors, traits, abilities, tameable: v.tameable ?? false,
-      hpMult: base.hpMult * 2.4 * roleMult, atkMult: base.atkMult * 1.3, armor: base.armor * (v.mechanic === 'carapaca' ? 1.5 : 1.1),
+      hpMult: base.hpMult * 2.0 * roleMult, atkMult: base.atkMult * 1.2, armor: base.armor * (v.mechanic === 'carapaca' ? 1.5 : 1.1),
       drops: [
         ...base.drops.map((d) => ({ ...d, chance: Math.min(1, d.chance * 1.5), max: d.max + 1 })),
         { item: region.signature, chance: 0.2, min: 1, max: 2 },
@@ -147,8 +147,8 @@ export function monstersOfRegion(region: string, rank?: MonsterDef['rank']): Mon
 
 /** Atributos de combate de uma criatura (base por nível × papel). */
 export function monsterStats(m: MonsterDef) {
-  const hp = Math.round((30 + m.level * 16) * m.hpMult);
-  const atk = Math.round((5 + m.level * 2.4) * m.atkMult);
+  const hp = Math.round((40 + m.level * 10) * m.hpMult);
+  const atk = Math.round((6 + m.level * 0.95) * m.atkMult);
   const armor = Math.round(m.level * 3 * m.armor);
   return { hp, atk, armor };
 }

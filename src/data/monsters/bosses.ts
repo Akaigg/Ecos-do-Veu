@@ -23,7 +23,7 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'Guardião das raízes mais antigas do bosque. Suas investidas derrubam árvores inteiras.',
     mechanic: 'Investidas anunciadas destroem obstáculos e proteções: saia da linha atingida ou intercepte.',
     reward: 'Materiais de armadura de impacto', rewardItem: 'presa-ancestral', legendary: 'presa-ancestral',
-    hpMult: 9, atkMult: 1.2, armor: 1.2,
+    hpMult: 5.0, atkMult: 1.2, armor: 1.2,
     abilities: [
       hit('Chifrada'),
       A('investida-ancestral', 'Investida Ancestral', '{n} arranca raízes do chão e encara a linha de frente. Na próxima rodada, atravessará tudo nela — escudos inclusive.', { target: 'linha_frente', charge: 1, interruptible: false, effects: [{ k: 'dissipar', count: 2 }, dmg(0, {}, 'fisico', { atk: 2.2 }), { k: 'expor', dur: 2, on: 'si' }] }),
@@ -39,11 +39,11 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'Tece casulos do tamanho de pessoas no coração do bosque.',
     mechanic: 'Casulos prendem aliados e geram filhotes: destrua o casulo antes que eclodam.',
     reward: 'Seda para equipamentos leves', rewardItem: 'seda-matriarca', legendary: 'seda-viva',
-    hpMult: 9, atkMult: 1.1, armor: 0.8,
+    hpMult: 5.0, atkMult: 1.1, armor: 0.8,
     abilities: [
       hit('Mordida', 'veneno'),
       A('casulo', 'Casulo', '{n} começa a tecer ao redor de {a}. Destrua o casulo para libertá-lo!', { target: 'aleatorio', range: 'distancia', effects: [{ k: 'casulo', dur: 3 }], cooldown: 3 }),
-      A('chuva-filhotes', 'Chuva de Filhotes', '{n} sacode o abdômen: filhotes caem do teto.', { target: 'si', range: 'distancia', effects: [{ k: 'invocar', minion: 'aranha-musgo', max: 3, count: 2 }], cooldown: 4 }),
+      A('chuva-filhotes', 'Chuva de Filhotes', '{n} sacode o abdômen: filhotes caem do teto.', { target: 'si', range: 'distancia', effects: [{ k: 'invocar', minion: 'aranha-musgo', max: 2, count: 2 }], cooldown: 5 }),
       A('veneno-matriarca', 'Veneno da Matriarca', '{n} cospe veneno sobre todos.', { target: 'todos', range: 'distancia', effects: [dmg(0, {}, 'veneno', { atk: 0.6 }), st('veneno', 3, { potency: 0 })] }),
     ],
     rotation: ['basico', 'casulo', 'veneno-matriarca', 'chuva-filhotes', 'basico', 'casulo'],
@@ -54,7 +54,7 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'Coroado com uma panela, comanda os goblins de um trono de carroças.',
     mechanic: 'Alterna engenhocas improvisadas, cada uma com uma resposta diferente.',
     reward: 'Receitas de dispositivos', rewardItem: 'engrenagem-rei',
-    hpMult: 9, atkMult: 1.15, armor: 1,
+    hpMult: 5.0, atkMult: 1.15, armor: 1,
     abilities: [
       hit('Cetro de Cano'),
       A('catapulta', 'Catapulta de Sucata', '{n} engatilha uma catapulta apontada para a retaguarda. Na próxima rodada, disparará.', { target: 'linha_tras', range: 'distancia', charge: 1, interruptible: true, effects: [dmg(0, {}, 'fisico', { atk: 1.8 })] }),
@@ -70,7 +70,7 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'Construído pelos anões para escavar — e para proteger o que encontraram.',
     mechanic: 'Placas devem ser quebradas em sequência: só a próxima placa recebe dano; depois o núcleo fica exposto.',
     reward: 'Núcleos de ferramentas', rewardItem: 'nucleo-colosso',
-    hpMult: 8, atkMult: 1.2, armor: 1.5,
+    hpMult: 4.4, atkMult: 1.2, armor: 1.5,
     start: ['placa-esquerda', 'placa-direita', 'placa-nucleo'],
     abilities: [
       hit('Punho de Pedra'),
@@ -85,7 +85,7 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'Diz-se que as vozes do pântano são de quem provou seus caldos.',
     mechanic: 'Caldeirões modificam o campo enquanto existirem: veneno, névoa ou cura para a bruxa.',
     reward: 'Fórmulas alquímicas', rewardItem: 'essencia-brejo',
-    hpMult: 8, atkMult: 1.1, armor: 0.7,
+    hpMult: 4.4, atkMult: 1.1, armor: 0.7,
     start: ['caldeirao-venenoso'],
     abilities: [
       hit('Concha Fervente', 'veneno'),
@@ -102,7 +102,7 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'Cada cabeça tem uma fome diferente. Nenhuma se satisfaz.',
     mechanic: 'Cabeças protegem o corpo e voltam a crescer — a menos que o corpo esteja queimando quando renascerem.',
     reward: 'Componentes de resistência', rewardItem: 'escama-hidra',
-    hpMult: 7, atkMult: 1.0, armor: 1,
+    hpMult: 3.9, atkMult: 1.0, armor: 1,
     start: ['cabeca-venenosa', 'cabeca-ignea', 'cabeca-gelida'],
     abilities: [
       hit('Investida do Corpo'),
@@ -117,7 +117,7 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'Antes de cada tempestade de areia, dizem ouvir alguém falar.',
     mechanic: 'Tempestades periódicas limitam visão e precisão. Marcar o arauto anula sua evasão.',
     reward: 'Equipamentos de sobrevivência', rewardItem: 'vidro-tempestuoso',
-    hpMult: 8, atkMult: 1.15, armor: 1,
+    hpMult: 4.4, atkMult: 1.15, armor: 1,
     meters: [{ id: 'tempestade', label: 'Tempestade', max: 100, start: 0, perRound: 25, onFull: 'tempestade', resetTo: 0 }],
     abilities: [
       hit('Lâmina de Areia'),
@@ -133,7 +133,7 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'Reinou sobre a cidade que o rompimento fundiu em vidro.',
     mechanic: 'Espelhos projetam ataques e refletem magia enquanto existirem; ilusões confundem.',
     reward: 'Runas de reflexão limitada', rewardItem: 'espelho-farao', legendary: 'reflexo-farao',
-    hpMult: 8, atkMult: 1.2, armor: 1.2,
+    hpMult: 4.4, atkMult: 1.2, armor: 1.2,
     start: ['espelho', 'espelho'],
     abilities: [
       hit('Cetro Cristalino', 'arcano'),
@@ -149,7 +149,7 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'Seu ninho fica no pico mais alto, onde o vento nunca para.',
     mechanic: 'Ventos trocam as linhas do grupo: quem estava protegido vira alvo.',
     reward: 'Capas de mobilidade', rewardItem: 'pluma-rainha', legendary: 'pluma-vento',
-    hpMult: 8, atkMult: 1.2, armor: 0.9,
+    hpMult: 4.4, atkMult: 1.2, armor: 0.9,
     abilities: [
       hit('Garras Reais'),
       A('vendaval', 'Vendaval', '{n} bate as asas com força. Na próxima rodada, as linhas do grupo serão trocadas.', { target: 'todos', range: 'distancia', charge: 1, interruptible: true, effects: [{ k: 'trocar_linhas', side: 'aliados' }, dmg(0, {}, 'fisico', { atk: 0.4 })] }),
@@ -164,7 +164,7 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'Quando acorda, o pico racha mais um pouco.',
     mechanic: 'Cada fase altera o terreno: avalanche, gelo fino e beira do penhasco.',
     reward: 'Reforços de armadura', rewardItem: 'placa-tita',
-    hpMult: 10, atkMult: 1.25, armor: 1.3,
+    hpMult: 5.5, atkMult: 1.25, armor: 1.3,
     abilities: [
       hit('Punho Montanhoso'),
       A('terremoto', 'Terremoto', '{n} ergue o pé. Na próxima rodada, o chão inteiro tremerá.', { target: 'todos', range: 'distancia', charge: 1, interruptible: true, effects: [dmg(0, {}, 'fisico', { atk: 1.2 }), st('atordoado', 1, { chance: 0.25 })] }),
@@ -183,7 +183,7 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'Um monarca congelado no trono há mil invernos.',
     mechanic: 'Geada acumula em todos a cada rodada; ao chegar em 5, congela. Causar dano de fogo ou ser curado derrete a geada.',
     reward: 'Materiais glaciais', rewardItem: 'coracao-glacial', legendary: 'coracao-glacial',
-    hpMult: 9, atkMult: 1.15, armor: 1.2,
+    hpMult: 5.0, atkMult: 1.15, armor: 1.2,
     stack: { status: 'geada', perRound: 1, threshold: 5, effects: [st('congelado', 2)], reduceOnElem: { elem: 'fogo', amount: 2 }, reduceOnHeal: 1 },
     abilities: [
       hit('Cetro de Gelo', 'gelo'),
@@ -199,7 +199,7 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'Surge quando a aurora toca o chão.',
     mechanic: 'Alterna absorção de dano físico e mágico: o tipo absorvido o cura. Observe a cor da aurora.',
     reward: 'Runas de adaptação', rewardItem: 'prisma-aurora', legendary: 'prisma-adaptativo',
-    hpMult: 9, atkMult: 1.15, armor: 1,
+    hpMult: 5.0, atkMult: 1.15, armor: 1,
     abilities: [
       hit('Tentáculo de Luz', 'arcano'),
       A('aurora-vermelha', 'Aurora Vermelha', 'A aurora fica VERMELHA: o Devorador absorverá dano FÍSICO por 2 rodadas.', { target: 'si', range: 'distancia', effects: [st('imune_fisico', 2)] }),
@@ -214,7 +214,7 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'Afundou com a cidade e jurou levar todos junto.',
     mechanic: 'O grupo precisa controlar a inundação: comportas enchem o salão; destruí-las faz a água recuar. Na inundação total, todos sofrem muito dano.',
     reward: 'Equipamentos marítimos', rewardItem: 'ancora-afogada', legendary: 'ancora-mares',
-    hpMult: 9, atkMult: 1.2, armor: 1.1,
+    hpMult: 5.0, atkMult: 1.2, armor: 1.1,
     start: ['comporta'],
     meters: [{ id: 'inundacao', label: 'Inundação', max: 100, start: 20, perRound: 5, onFull: 'mare-total', resetTo: 40 }],
     abilities: [
@@ -232,7 +232,7 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'Acorrentado sob a cidade por quem a afundou.',
     mechanic: 'Tentáculos têm funções diferentes: agarrar, esmagar e proteger o corpo. Eles voltam a crescer.',
     reward: 'Componentes de contenção', rewardItem: 'tentaculo-acorrentado',
-    hpMult: 8, atkMult: 1.15, armor: 1, start: ['tentaculo-agarrador', 'tentaculo-esmagador', 'tentaculo-protetor'],
+    hpMult: 4.4, atkMult: 1.15, armor: 1, start: ['tentaculo-agarrador', 'tentaculo-esmagador', 'tentaculo-protetor'],
     abilities: [
       A('jato-tinta', 'Jato de Tinta', '{n} esguicha tinta sobre todos.', { target: 'todos', range: 'distancia', effects: [st('cegueira', 2, { potency: 25 }), st('molhado', 2)] }),
       A('vortice', 'Vórtice', '{n} começa a girar a água. Na próxima rodada, todos serão arrastados.', { target: 'todos', range: 'distancia', charge: 1, interruptible: true, effects: [dmg(0, {}, 'fisico', { atk: 1.1 }), { k: 'mover', to: 'frente' }] }),
@@ -246,7 +246,7 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'Perdeu o rosto, o nome e o império — mas não a coroa.',
     mechanic: 'Rouba o rosto de um herói e copia uma de suas habilidades equipadas.',
     reward: 'Visuais e relíquias imperiais', rewardItem: 'mascara-sem-rosto', legendary: 'mascara-copia',
-    hpMult: 9, atkMult: 1.2, armor: 1.2,
+    hpMult: 5.0, atkMult: 1.2, armor: 1.2,
     abilities: [
       hit('Cetro Imperial', 'sombra'),
       A('roubar-rosto', 'Roubar Rosto', '{n} fixa o rosto vazio em {a}… e começa a imitá-lo.', { target: 'aleatorio', range: 'distancia', effects: [{ k: 'copiar_habilidade' }] }),
@@ -261,7 +261,7 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'Leu tudo o que não deveria ser lido.',
     mechanic: 'Sigilos numerados explodem se não forem destruídos na ordem indicada.',
     reward: 'Modificadores arcanos', rewardItem: 'pagina-proibida',
-    hpMult: 8, atkMult: 1.15, armor: 0.9,
+    hpMult: 4.4, atkMult: 1.15, armor: 0.9,
     abilities: [
       hit('Golpe de Tomo', 'arcano'),
       A('escrever-sigilos', 'Escrever Sigilos', '{n} risca três sigilos no ar. Destrua-os na ordem: I, II, III!', { target: 'si', range: 'distancia', effects: [{ k: 'invocar', minion: '$sigilos', max: 3, count: 3 }], cooldown: 5 }),
@@ -275,7 +275,7 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'Um coração de fungos do tamanho de uma casa, pulsando no centro da floresta.',
     mechanic: 'Zonas de esporos se acumulam nas linhas: ao chegar em 5, envenenam e confundem. Trocar de linha dispersa os esporos.',
     reward: 'Receitas orgânicas', rewardItem: 'esporo-mae',
-    hpMult: 10, atkMult: 1.1, armor: 1,
+    hpMult: 5.5, atkMult: 1.1, armor: 1,
     stack: { status: 'esporos', perRound: 1, threshold: 5, effects: [st('veneno', 3, { potency: 0 }), st('confuso', 1)], reduceOnMove: 3, byLine: true },
     abilities: [
       hit('Pulsação', 'veneno'),
@@ -290,7 +290,7 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'A primeira forja da Irmandade — que um dia acordou com fome.',
     mechanic: 'A temperatura sobe a cada rodada e com dano de fogo; dano de gelo a reduz. Quanto mais quente, mais forte. Em 100, entra em erupção.',
     reward: 'Materiais de forja avançada', rewardItem: 'brasa-primordial', legendary: 'brasa-primordial',
-    hpMult: 10, atkMult: 1.2, armor: 1.3,
+    hpMult: 5.5, atkMult: 1.2, armor: 1.3,
     meters: [{ id: 'temperatura', label: 'Temperatura', max: 100, start: 20, perRound: 10, onFull: 'erupcao', resetTo: 40, elemDelta: { fogo: 8, gelo: -15 }, empowerAbove: 50 }],
     abilities: [
       hit('Punho Incandescente', 'fogo'),
@@ -307,7 +307,7 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'Dormiu sob o vulcão por mil anos. A obsidiana cresceu sobre ele.',
     mechanic: 'Placas protegem regiões diferentes: o peito reduz o dano, as asas permitem voar e a cauda varre a linha de frente. Quebre-as para desativar.',
     reward: 'Componentes dracônicos', rewardItem: 'escama-obsidiana', legendary: 'escama-dragao',
-    hpMult: 11, atkMult: 1.25, armor: 1.4,
+    hpMult: 6.1, atkMult: 1.25, armor: 1.4,
     start: ['placa-peito', 'placa-asas', 'placa-cauda'],
     abilities: [
       hit('Garras de Obsidiana'),
@@ -324,7 +324,7 @@ export const BOSS_SPECS: BossSpec[] = [
     habit: 'Não é uma criatura. É um lugar que aprendeu a se defender.',
     mechanic: 'Fases testam preparação (ecos de chefes), posicionamento (distorção que troca linhas) e escolhas anteriores (decisões de campanha enfraquecem ou fortalecem a fenda).',
     reward: 'Relíquias do Véu e conclusão da campanha principal', rewardItem: 'reliquia-veu', legendary: 'reliquia-veu',
-    hpMult: 13, atkMult: 1.3, armor: 1.2,
+    hpMult: 7.2, atkMult: 1.3, armor: 1.2,
     meters: [{ id: 'colapso', label: 'Colapso', max: 100, start: 0, perRound: 8, onFull: 'colapso-total', resetTo: 30 }],
     abilities: [
       hit('Pulso do Vazio', 'arcano'),

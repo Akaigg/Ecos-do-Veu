@@ -62,11 +62,11 @@ export const ENEMY_OBJECTS: EnemyObjectDef[] = [
   // Almirante Afogado
   { id: 'comporta', name: 'Comporta Aberta', shape: 'comporta', colors: ['#5a4a3a', '#3a8ab0'], hpPct: 0.1, atkPct: 0, line: 'tras', abilities: [], role: 'comporta', meterPerRound: ['inundacao', 12], onDeath: { meter: ['inundacao', -20], text: 'A comporta se fecha com um estrondo. A água recua.' } },
   // Kraken das Correntes
-  { id: 'tentaculo-agarrador', name: 'Tentáculo Agarrador', shape: 'tentaculo', colors: ['#8a3a6a', '#f0a0c0'], hpPct: 0.12, atkPct: 0.5, line: 'frente', role: 'tentaculo', onDeath: { regrow: 3 },
+  { id: 'tentaculo-agarrador', name: 'Tentáculo Agarrador', shape: 'tentaculo', colors: ['#8a3a6a', '#f0a0c0'], hpPct: 0.12, atkPct: 0.5, line: 'frente', role: 'tentaculo', onDeath: { regrow: 4 },
     abilities: [A('agarrar', 'Agarrar', '{n} se enrola ao redor de {a}.', { target: 'retaguarda', effects: [st('atordoado', 1), { k: 'mover', to: 'frente' }], cooldown: 2 }), A('chicote', 'Chicote', '{n} chicoteia {a}.', { target: 'ameaca', effects: [dmg(0, {}, 'fisico', { atk: 1 })] })] },
-  { id: 'tentaculo-esmagador', name: 'Tentáculo Esmagador', shape: 'tentaculo', colors: ['#6a2a4a', '#c06080'], hpPct: 0.14, atkPct: 0.9, line: 'frente', role: 'tentaculo', onDeath: { regrow: 3 },
+  { id: 'tentaculo-esmagador', name: 'Tentáculo Esmagador', shape: 'tentaculo', colors: ['#6a2a4a', '#c06080'], hpPct: 0.14, atkPct: 0.9, line: 'frente', role: 'tentaculo', onDeath: { regrow: 4 },
     abilities: [A('esmagar', 'Esmagar', '{n} se ergue sobre a linha de frente. Na próxima rodada, cairá com tudo.', { target: 'linha_frente', charge: 1, interruptible: true, effects: [dmg(0, {}, 'fisico', { atk: 1.6 })], cooldown: 2 })] },
-  { id: 'tentaculo-protetor', name: 'Tentáculo Protetor', shape: 'tentaculo', colors: ['#3a5a8a', '#80c0f0'], hpPct: 0.12, atkPct: 0.3, line: 'frente', role: 'protetor', protects: 40, onDeath: { regrow: 4, text: 'O kraken fica exposto!' },
+  { id: 'tentaculo-protetor', name: 'Tentáculo Protetor', shape: 'tentaculo', colors: ['#3a5a8a', '#80c0f0'], hpPct: 0.12, atkPct: 0.3, line: 'frente', role: 'protetor', protects: 40, onDeath: { regrow: 5, text: 'O kraken fica exposto!' },
     abilities: [A('guardar', 'Guardar', '{n} se enrola diante do kraken.', { target: 'si', effects: [st('fortificado', 1, { potency: 30 })] })] },
   // Arquivista Proibido
   { id: 'sigilo-1', name: 'Sigilo I', shape: 'sigilo', colors: ['#c0a070', '#f0e0a0'], hpPct: 0.05, atkPct: 0, line: 'tras', abilities: [], role: 'sigilo', order: 1,

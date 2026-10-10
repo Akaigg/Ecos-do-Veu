@@ -381,8 +381,8 @@ export const MONGE: ClassDef = {
     cost: 0, cd: 1, target: 'inimigo', icon: 'mao',
     effects: [dmg(8, { destreza: 0.6, forca: 0.4 }, 'fisico', { weapon: 0.6 }), { k: 'recurso', amount: 1, on: 'si' }],
   }),
-  innate: passive('corpo-disciplinado', 'Corpo Disciplinado', '+5% de esquiva e +10 de resistência a controle.', [
-    { t: 'stat', stat: 'esquiva', value: 5 }, { t: 'stat', stat: 'resist_controle', value: 10 },
+  innate: passive('corpo-disciplinado', 'Corpo Disciplinado', '+6% de esquiva, +8% de vida e +10 de resistência a controle.', [
+    { t: 'stat', stat: 'esquiva', value: 6 }, { t: 'stat', stat: 'vida', value: 8 }, { t: 'stat', stat: 'resist_controle', value: 10 },
   ], 'punho'),
   trees: [
     tree({
